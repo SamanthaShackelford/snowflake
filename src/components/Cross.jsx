@@ -66,10 +66,9 @@ export function SnowflakeAnim() {
     // } else if (curTop >= 1000) {
     //   ref.current.position.y = -curTop / 40
     // }
-    
   })
   return (
-    <group ref={ref} scale={[2, 2, 2]} position={[0, 0, 100]}>
+    <group ref={ref} scale={[1.5, 1.5, 1.5]} position={[0.5, 0, 0.1]}>
       <Snowflake/>
       {/* <Plane scale={[1, 0.2, 0.2]} color="#e2bfca" />
       <Plane scale={[0.2, 1, 0.2]} color="#e2bfca" /> */}
