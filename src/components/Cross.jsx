@@ -1,6 +1,6 @@
 import * as THREE from "three"
 import { useRef } from 'react'
-import { useBlock } from "../blocks"
+import { useBlock } from "./blocks"
 import { useFrame } from '@react-three/fiber'
 import state from '../store'
 import { Snowflake } from "./Snowflake"

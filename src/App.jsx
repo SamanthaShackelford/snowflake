@@ -1,48 +1,51 @@
 import ReactDOM from "react-dom"
 import React, { useRef, useEffect } from "react"
 import { Canvas } from "@react-three/fiber"
-import { Text, Sky } from "@react-three/drei";
-import { Block, useBlock } from "./blocks"
-import { SnowflakeAnim, Plane } from './components/Cross'
-// import { Snow } from './components/Snow'
+import { Text, Sky, OrbitControls } from "@react-three/drei";
+import { Block } from "./components/blocks"
+import { SnowflakeAnim } from './components/Cross'
+import { PictureFrame } from './components/Pictureframe'
+import { Content } from './components/Content'
 import state from "./store"
 import { colors } from './colors'
-import "./app.css"
+import './App.css'
 
-function Content({ left, children, color = colors.blueLight }) {
-  const { contentMaxWidth, canvasWidth, margin } = useBlock()
-  const aspect = 1.75
-  const alignRight = (canvasWidth - contentMaxWidth - margin) / 2
-  return (
-    <group position={[alignRight * (left ? -1 : 1), 0, 0]}>
-      <Plane 
-        scale={[contentMaxWidth, contentMaxWidth / aspect, 1]} 
-        color={color} 
-      />
-      {children}
-    </group>
-  )
-}
 
 
 export default function App() {
   const scrollArea = useRef()
   const onScroll = (e) => (state.top.current = e.target.scrollTop)
   useEffect(() => void onScroll({ target: scrollArea.current }), [])
+
   return (
-    <>
+    <div style={{
+      top: 0,
+      left: 0,
+      display: "grid",
+      alignItems: "center",
+      justifyContent: "center",
+      gridTemplateRows: "auto auto",
+      // gridTemplateColumns: "auto auto",
+      // height: '1200px',
+      height: '100%',
+      // overflow: 'scroll'
+    }}>
+
       <Canvas 
+        style={{ 
+          gridRow: 1, 
+          height: '100vh', 
+          width: '100vw' 
+        }}
         orthographic 
-        camera={{ zoom: state.zoom, position: [0, 0, 500] }}
+        camera={{ 
+          zoom: state.zoom, 
+          position: [0, 0, 500] 
+        }}
       >
-        {/* <Snow count={1}/> */}
         <Sky
           distance={30} // Camera distance (default=450000)
-          // sunPosition={[0, 20, 0]} // Sun position normal (default=[0, 1, 0])
-          // distance={450000}
           sunPosition={[10, 10, 20]}
-          // inclination={0}
-          // azimuth={0.25}
         />
 
         {/* First section */}
@@ -69,13 +72,34 @@ export default function App() {
         {/* Last section */}
         <Block factor={1.5} offset={2}>
           <Content left />
+
         </Block>
       </Canvas>
 
       <div className="scrollArea" ref={scrollArea} onScroll={onScroll}>
-        <div style={{ height: `${state.pages * 100}vh` }} />
+        <div style={{ height: `${state.pages * 100}vh`,  border: '10px solid red' }} />
       </div>
-    </>
+
+      <Canvas 
+        style={{
+          border: '10px solid pink', 
+          gridRow: 3,
+          height: '100vh', 
+          width: '100vw',
+        }}
+        camera={{ 
+          position: [0, 0, 50] 
+        }}
+      >
+        <Sky sunPosition={[10, 10, 20]} />
+        <Text color="black" anchorX="center" anchorY={-1.3} font='../public/fonts/campton-light.otf' fontSize={.4}>
+          HELLLOOOOO
+        </Text>
+        <OrbitControls enableZoom={false} />
+        <PictureFrame />
+      </Canvas>
+
+    </div>
   )
 }
 
